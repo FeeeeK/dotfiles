@@ -145,6 +145,21 @@ __python_venv() {
 
 add-zsh-hook chpwd __python_venv
 
+
+if ! command -v rye >/dev/null 2>&1; then
+    if [[ $OSTYPE == linux* ]]; then
+        setup_rye() {
+            curl -sSf https://rye-up.com/get | bash
+        }
+    elif [[ $OSTYPE == Windows_NT || $OSTYPE == cygwin || $OSTYPE == msys ]]; then
+        setup_rye() {
+            curl -sSf https://github.com/astral-sh/rye/releases/latest/download/rye-x86_64-windows.exe -o /tmp/rye.exe
+            /tmp/rye.exe self install "$@"
+            rm /tmp/rye.exe
+        }
+    fi
+fi
+
 zinit for \
     wait lucid nocd nocompile \
     atload'__python_venv' \
