@@ -146,7 +146,7 @@ __python_venv() {
 add-zsh-hook chpwd __python_venv
 
 
-if ! command -v rye >/dev/null 2>&1; then
+if [[ ! -e $HOME/.rye ]]; then
     if [[ $OSTYPE == linux* ]]; then
         setup_rye() {
             curl -sSf https://rye-up.com/get | bash
@@ -158,6 +158,8 @@ if ! command -v rye >/dev/null 2>&1; then
             rm /tmp/rye.exe
         }
     fi
+else
+    source "$HOME/.rye/env"
 fi
 
 zinit for \
