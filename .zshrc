@@ -159,7 +159,13 @@ if [[ ! -e $HOME/.rye ]]; then
         }
     fi
 else
-    source "$HOME/.rye/env"
+    case ":${PATH}:" in
+        *:"$HOME/.rye/shims":*)
+            ;;
+        *)
+        export PATH="$HOME/.rye/shims:$PATH"
+        ;;
+    esac
 fi
 
 zinit for \
