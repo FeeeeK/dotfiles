@@ -144,6 +144,7 @@ __python_venv() {
 }
 
 add-zsh-hook chpwd __python_venv
+__python_venv
 
 
 if [[ ! -e $HOME/.rye ]]; then
@@ -167,11 +168,6 @@ else
         ;;
     esac
 fi
-
-zinit for \
-    wait lucid nocd nocompile \
-    atload'__python_venv' \
-    zdharma-continuum/null
 
 zinit for \
     wait lucid as"completion" nocompile \
