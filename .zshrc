@@ -220,6 +220,14 @@ if [[ $OSTYPE != Windows_NT && $OSTYPE != cygwin && $OSTYPE != msys ]]; then
         run-atpull \
         zdharma-continuum/null
 
+    case ":${PATH}:" in
+        *:"$HOME/.local/bin":*)
+            ;;
+        *)
+        export PATH="$HOME/.local/bin:$PATH"
+        ;;
+    esac
+
 elif [[ ! $IS_WSL ]]; then
     JAVA_HOME=$(cygpath -u $JAVA_HOME)
     for p in /custom_bin/*; do
