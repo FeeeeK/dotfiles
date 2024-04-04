@@ -229,25 +229,6 @@ if [[ $OSTYPE != Windows_NT && $OSTYPE != cygwin && $OSTYPE != msys ]]; then
     esac
 
 elif [[ ! $IS_WSL ]]; then
-    JAVA_HOME=$(cygpath -u $JAVA_HOME)
-    for p in /custom_bin/*; do
-        if [[ -d $p/bin ]]; then
-            # PATH="$p/bin:$PATH"
-            p="$p/bin"
-        # if $p not directory, then continue
-        elif [[ ! -d $p ]]; then
-            continue
-        fi
-        # if $ not in PATH, then add it
-        case ":${PATH}:" in
-            *:"$p":*)
-                ;;
-            *)
-            PATH="$p:$PATH"
-            ;;
-        esac
-
-    done
     # PATH=$(echo $PATH | sed -E 's/(.*)(\/mingw64\/bin)(.*)/\1\3:\2/')
 fi
 
