@@ -209,6 +209,37 @@ zinit for \
     run-atpull \
     zdharma-continuum/null
 
+# rust boolshit
+if [[ -e $HOME/.cargo ]]; then
+    case ":${PATH}:" in
+        *:"$HOME/.cargo/bin":*)
+            ;;
+        *)
+        export PATH="$HOME/.cargo/bin:$PATH"
+        ;;
+    esac
+
+    zinit for \
+        wait lucid as"completion" nocompile \
+        id-as"rustup-completion" \
+        has"rustup" \
+        blockf \
+        atclone"rustup completions zsh > _rustup; zinit creinstall rustup-completion" \
+        atpull"%atclone" \
+        run-atpull \
+        zdharma-continuum/null
+
+    zinit for \
+        wait lucid as"completion" nocompile \
+        id-as"cargo-completion" \
+        has"cargo" \
+        blockf \
+        atclone"rustup completions zsh cargo > _rustup; zinit creinstall rustup-completion" \
+        atpull"%atclone" \
+        run-atpull \
+        zdharma-continuum/null
+fi
+
 if [[ $OSTYPE != Windows_NT && $OSTYPE != cygwin && $OSTYPE != msys ]]; then
     zinit for \
         wait lucid as"completion" nocompile \
