@@ -121,6 +121,10 @@ if [[ -v WSL_DISTRO_NAME ]]; then
     alias virtualenv='virtualenv ~/.virtualenvs/$(basename $PWD)'
 fi
 
+md5ns() {
+    echo -n "$1" | md5sum | cut -c1-4
+}
+
 __python_venv() {
     VENVPATH=.venv
     if [[ -v WSL_DISTRO_NAME ]]; then
