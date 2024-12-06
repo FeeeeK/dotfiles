@@ -151,34 +151,18 @@ add-zsh-hook chpwd __python_venv
 __python_venv
 
 
-if [[ ! -e $HOME/.rye ]]; then
-    if [[ $OSTYPE == linux* ]]; then
-        setup_rye() {
-            curl -sSf https://rye-up.com/get | bash
-        }
-    elif [[ $OSTYPE == Windows_NT || $OSTYPE == cygwin || $OSTYPE == msys ]]; then
-        setup_rye() {
-            curl -sSf https://github.com/astral-sh/rye/releases/latest/download/rye-x86_64-windows.exe -o /tmp/rye.exe
-            /tmp/rye.exe self install "$@"
-            rm /tmp/rye.exe
-        }
-    fi
-else
-    case ":${PATH}:" in
-        *:"$HOME/.rye/shims":*)
-            ;;
-        *)
-        export PATH="$HOME/.rye/shims:$PATH"
-        ;;
-    esac
+if [[ ! -e $HOME/.local/bin/uv ]]; then
+    setup_uv() {
+        curl -sSf https://astral.sh/uv/install.sh | bash
+    }
 fi
 
 zinit for \
     wait lucid as"completion" nocompile \
-    id-as"rye-completion" \
-    has"rye" \
+    id-as"uv-completion" \
+    has"uv" \
     blockf \
-    atclone"rye self completion -s zsh > _rye; zinit creinstall rye-completion" \
+    atclone"uv generate-shell-completion zsh > _uv; zinit creinstall uv-completion" \
     atpull"%atclone" \
     run-atpull \
     zdharma-continuum/null
