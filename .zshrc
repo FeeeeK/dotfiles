@@ -143,6 +143,10 @@ __python_venv() {
         fi
 
     elif [[ -v VIRTUAL_ENV ]]; then
+        PARENT_DIR="$(dirname "$VIRTUAL_ENV")"
+        if [[ "$PWD" == "$PARENT_DIR"* ]]; then
+            return
+        fi
         deactivate
     fi
 }
