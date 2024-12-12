@@ -20,7 +20,6 @@ fi
 source "${ZINIT[BIN_DIR]}/zinit.zsh"
 # end Zinit Plugin Manager
 
-
 autoload -U colors && colors
 autoload -U add-zsh-hook
 
@@ -60,6 +59,7 @@ __init_autocomplete() {
     bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
     bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 }
+
 zinit ice lucid nocd \
     atload'__init_autocomplete; unset __init_autocomplete'
 zinit light marlonrichert/zsh-autocomplete
@@ -103,18 +103,6 @@ ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗ "
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%}) "
 ZSH_THEME_VIRTUALENV_PREFIX="%{$fg_bold[blue]%}(%{$fg[green]%}"
 ZSH_THEME_VIRTUALENV_SUFFIX="%{$fg[blue]%}) "
-
-if [[ -e $HOME/.pyenv ]]; then
-    if [[ $OSTYPE == linux* ]]; then
-        PYENV_ROOT="$HOME/.pyenv/"
-        zinit ice wait'!' lucid nocd \
-            atload'eval "$(pyenv init - --no-rehash zsh)"'
-        zinit light zdharma-continuum/null
-    elif [[ $OSTYPE == Windows_NT || $OSTYPE == cygwin || $OSTYPE == msys ]]; then
-        PYENV_ROOT="$HOME/.pyenv/pyenv-win"
-    fi
-    PATH="$PYENV_ROOT/bin:$PATH"
-fi
 
 
 if [[ -v WSL_DISTRO_NAME ]]; then
@@ -162,11 +150,10 @@ if [[ ! -e $HOME/.local/bin/uv ]]; then
 fi
 
 zinit for \
-    wait lucid as"completion" nocompile \
+    wait lucid as"completion" \
     id-as"uv-completion" \
     has"uv" \
-    blockf \
-    atclone"uv generate-shell-completion zsh > _uv; zinit creinstall uv-completion" \
+    atclone"uv generate-shell-completion zsh > _uv" \
     atpull"%atclone" \
     run-atpull \
     zdharma-continuum/null
@@ -175,28 +162,25 @@ zinit for \
     wait lucid as"completion" \
     id-as"poetry-completion" \
     has"poetry" \
-    atclone"poetry completions zsh > _poetry; zinit creinstall poetry-completion" \
+    atclone"poetry completions zsh > _poetry" \
     atpull"%atclone" \
     run-atpull \
-    nocompile \
     zdharma-continuum/null
 
 zinit for \
-    wait lucid as"completition" nocompile \
+    wait lucid as"completition" \
     id-as"pip-completion" \
     has"pip" \
-    blockf \
-    atclone"pip completion --zsh > _pip; zinit creinstall pip-completion" \
+    atclone"pip completion --zsh > _pip" \
     atpull"%atclone" \
     run-atpull \
     zdharma-continuum/null
 
 zinit for \
-    wait lucid as"completion" nocompile \
+    wait lucid as"completion" \
     id-as"packwiz-completion" \
     has"packwiz" \
-    blockf \
-    atclone"packwiz completion zsh > _packwiz; zinit creinstall packwiz-completion" \
+    atclone"packwiz completion zsh > _packwiz" \
     atpull"%atclone" \
     run-atpull \
     zdharma-continuum/null
@@ -212,33 +196,37 @@ if [[ -e $HOME/.cargo ]]; then
     esac
 
     zinit for \
-        wait lucid as"completion" nocompile \
+        wait lucid as"completion" \
         id-as"rustup-completion" \
         has"rustup" \
-        blockf \
-        atclone"rustup completions zsh > _rustup; zinit creinstall rustup-completion" \
+        atclone"rustup completions zsh > _rustup" \
         atpull"%atclone" \
         run-atpull \
         zdharma-continuum/null
 
     zinit for \
-        wait lucid as"completion" nocompile \
+        wait lucid as"completion" \
         id-as"cargo-completion" \
         has"cargo" \
-        blockf \
-        atclone"rustup completions zsh cargo > _rustup; zinit creinstall rustup-completion" \
+        atclone"rustup completions zsh cargo > _rustup" \
         atpull"%atclone" \
         run-atpull \
         zdharma-continuum/null
 fi
 
 if [[ $OSTYPE != Windows_NT && $OSTYPE != cygwin && $OSTYPE != msys ]]; then
+    # remove existing _docker completion function without removing the file
+    # for some reason, /usr/share/zsh/vendor-completions/_docker always gets loaded
+    # over the generated one
+    if [[ -e /usr/share/zsh/vendor-completions/_docker ]]; then
+        unfunction _docker
+    fi
+
     zinit for \
-        wait lucid as"completion" nocompile \
+        wait lucid as"completion" \
         id-as"docker-compose-completion" \
         has"docker" \
-        blockf \
-        atclone"docker completion zsh > _docker; zinit creinstall docker-compose-completion" \
+        atclone"docker completion zsh > _docker" \
         atpull"%atclone" \
         run-atpull \
         zdharma-continuum/null
@@ -262,7 +250,6 @@ fi
 
 zinit for \
     atload"zicompinit; zicdreplay" \
-    blockf \
     lucid \
     wait \
-  zsh-users/zsh-completions
+    zsh-users/zsh-completions
