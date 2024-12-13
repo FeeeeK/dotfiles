@@ -12,6 +12,7 @@ fi
 declare -A ZINIT
 ZINIT[HOME_DIR]="${HOME}/.zinit"
 ZINIT[BIN_DIR]="${HOME}/.zinit/bin"
+export ZSH_CACHE_DIR="${ZINIT[HOME_DIR]}"
 if [[ ! -d $ZINIT[BIN_DIR] ]]; then
     print -P "Installing Zinit Plugin Manager..."
     mkdir -p "$ZINIT[BIN_DIR]"
@@ -64,7 +65,7 @@ zinit ice lucid nocd \
     atload'__init_autocomplete; unset __init_autocomplete'
 zinit light marlonrichert/zsh-autocomplete
 
-zinit ice wait'!' lucid
+zinit ice wait lucid
 zinit snippet OMZP::virtualenv
 
 zinit light agkozak/agkozak-zsh-prompt
@@ -152,6 +153,7 @@ fi
 zinit for \
     wait lucid as"completion" \
     id-as"uv-completion" \
+    blockf \
     has"uv" \
     atclone"uv generate-shell-completion zsh > _uv" \
     atpull"%atclone" \
@@ -161,6 +163,7 @@ zinit for \
 zinit for \
     wait lucid as"completion" \
     id-as"poetry-completion" \
+    blockf \
     has"poetry" \
     atclone"poetry completions zsh > _poetry" \
     atpull"%atclone" \
@@ -170,6 +173,7 @@ zinit for \
 zinit for \
     wait lucid as"completition" \
     id-as"pip-completion" \
+    blockf \
     has"pip" \
     atclone"pip completion --zsh > _pip" \
     atpull"%atclone" \
@@ -179,6 +183,7 @@ zinit for \
 zinit for \
     wait lucid as"completion" \
     id-as"packwiz-completion" \
+    blockf \
     has"packwiz" \
     atclone"packwiz completion zsh > _packwiz" \
     atpull"%atclone" \
@@ -198,6 +203,7 @@ if [[ -e $HOME/.cargo ]]; then
     zinit for \
         wait lucid as"completion" \
         id-as"rustup-completion" \
+        blockf \
         has"rustup" \
         atclone"rustup completions zsh > _rustup" \
         atpull"%atclone" \
@@ -207,6 +213,7 @@ if [[ -e $HOME/.cargo ]]; then
     zinit for \
         wait lucid as"completion" \
         id-as"cargo-completion" \
+        blockf \
         has"cargo" \
         atclone"rustup completions zsh cargo > _rustup" \
         atpull"%atclone" \
@@ -225,6 +232,7 @@ if [[ $OSTYPE != Windows_NT && $OSTYPE != cygwin && $OSTYPE != msys ]]; then
     zinit for \
         wait lucid as"completion" \
         id-as"docker-compose-completion" \
+        blockf \
         has"docker" \
         atclone"docker completion zsh > _docker" \
         atpull"%atclone" \
