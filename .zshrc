@@ -153,6 +153,8 @@ fi
 zinit for \
     wait lucid as"completion" \
     id-as"uv-completion" \
+    blockf \
+    nocompile \
     has"uv" \
     atclone"uv generate-shell-completion zsh > _uv" \
     atpull"%atclone" \
@@ -162,6 +164,8 @@ zinit for \
 zinit for \
     wait lucid as"completion" \
     id-as"poetry-completion" \
+    blockf \
+    nocompile \
     has"poetry" \
     atclone"poetry completions zsh > _poetry" \
     atpull"%atclone" \
@@ -171,6 +175,8 @@ zinit for \
 zinit for \
     wait lucid as"completition" \
     id-as"pip-completion" \
+    blockf \
+    nocompile \
     has"pip" \
     atclone"pip completion --zsh > _pip" \
     atpull"%atclone" \
@@ -180,6 +186,8 @@ zinit for \
 zinit for \
     wait lucid as"completion" \
     id-as"packwiz-completion" \
+    blockf \
+    nocompile \
     has"packwiz" \
     atclone"packwiz completion zsh > _packwiz" \
     atpull"%atclone" \
@@ -199,6 +207,8 @@ if [[ -e $HOME/.cargo ]]; then
     zinit for \
         wait lucid as"completion" \
         id-as"rustup-completion" \
+        blockf \
+        nocompile \
         has"rustup" \
         atclone"rustup completions zsh > _rustup" \
         atpull"%atclone" \
@@ -208,6 +218,8 @@ if [[ -e $HOME/.cargo ]]; then
     zinit for \
         wait lucid as"completion" \
         id-as"cargo-completion" \
+        blockf \
+        nocompile \
         has"cargo" \
         atclone"rustup completions zsh cargo > _rustup" \
         atpull"%atclone" \
@@ -227,6 +239,8 @@ if [[ $OSTYPE != Windows_NT && $OSTYPE != cygwin && $OSTYPE != msys ]]; then
         wait lucid as"completion" \
         id-as"docker-compose-completion" \
         has"docker" \
+        blockf \
+        nocompile \
         atclone"docker completion zsh > _docker" \
         atpull"%atclone" \
         run-atpull \
@@ -251,6 +265,7 @@ fi
 
 zinit for \
     atload"zicompinit; zicdreplay" \
+    blockf \
     lucid \
     wait \
     zsh-users/zsh-completions
