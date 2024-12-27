@@ -146,7 +146,7 @@ __python_venv
 
 if [[ ! -e $HOME/.local/bin/uv ]]; then
     setup_uv() {
-        curl -sSf https://astral.sh/uv/install.sh | bash
+        curl -LsSf https://astral.sh/uv/install.sh | zsh
     }
 fi
 
