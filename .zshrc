@@ -257,6 +257,13 @@ if [[ $OSTYPE != Windows_NT && $OSTYPE != cygwin && $OSTYPE != msys ]]; then
 
 elif [[ ! $IS_WSL ]]; then
     # PATH=$(echo $PATH | sed -E 's/(.*)(\/mingw64\/bin)(.*)/\1\3:\2/')
+    explorer() {
+        if [[ -n "$1" ]]; then
+            explorer.exe "$(cygpath -w "$1")"
+        else
+            explorer.exe "$(cygpath -w .)"
+        fi
+    }
 fi
 
 # command_not_found_handler() {
